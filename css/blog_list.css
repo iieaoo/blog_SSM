@@ -1,0 +1,75 @@
+/* 这个文件给博客列表页设置样式 */
+/* 设置整个博客的容器元素样式 */
+.blog {
+    width: 100%;
+    padding: 20px;
+}
+
+.blog .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 10px;
+}
+
+.blog .date {
+    text-align: center;
+    color: rgb(15,189,114);
+    padding: 10px;
+}
+
+.blog .desc {
+    text-indent: 2em;
+}
+
+.blog a {
+    /* a 标签不方便设置样式，转成块级元素 */
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    /* 设置水平居中 */
+    margin-top: 20px auto;
+    margin-left: auto;
+    margin-right: auto;
+    /* 设置边框 */
+    border: 2px solid black;
+    /* 让文字水平居中 */
+    text-align: center;
+    /* 让文字垂直居中 */
+    line-height: 30px;
+    /* 圆角矩形 */
+    border-radius: 5px;
+    /* 去掉下划线 */
+    text-decoration: none;
+    /* 文字改成黑色 */
+    color: black;
+    /* 给鼠标悬停加个过度效果 */
+    transition: all 0.8s; 
+}
+
+/* 设置一些鼠标滑动的变化 */
+.blog a:hover {
+    color: white;
+    background-color: rgb(155, 167, 169);
+}
+
+.blog-pagnation-wrapper{
+    height: 40px;
+    margin: 16px 0;
+    text-align: center;
+}
+.blog-pagnation-item{
+    display: inline-block;
+    padding: 8px;
+    border: 1px solid #d0d0d5;
+    color: #333;
+}
+.blog-pagnation-item:hover{
+    background: #4e4eeb;
+    color: #fff;
+}
+.blog-pagnation-item.actvie{
+    background: #4e4eeb;
+    color: #fff;
+}
+

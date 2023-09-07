@@ -1,0 +1,18 @@
+/* 这个样式文件给博客详情也使用 */
+
+.container-right .title {
+    text-align: center;
+    padding: 30px;
+}
+
+.container-right .date {
+    color: rgb(15,189,114);
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.container-right .content p {
+    text-align: left;
+    padding: 10px 30px;
+    text-indent: 2em;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客列表页</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/blog_list.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/common.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="image/logo2.png" alt="">
+        <span class="title">我的博客系统</span>
+        <!-- 这个标签仅仅用于占位, 把这几个 a 标签挤到右侧去 -->
+        <div class="spacer"></div>
+        <a href="blog_list.html">主页</a>
+        <a href="blog_edit.html">写博客</a>
+        <a href="login.html">注销</a>
+    </div>
+    <!-- 页面主体部分 -->
+    <div class="container">
+        <!-- 左侧信息 -->
+        <div class="container-left">
+            <!-- 使用这个 .card 表示用户信息 -->
+            <div class="card">
+                <!-- 用户头像 -->
+                <img src="image/money.jpg" alt="">
+                <!-- 用户名 -->
+                <h3>全家乐</h3>
+                <a href="#">github 地址</a>
+                <div class="counter">
+                    <span>文章</span>
+                    <span>分类</span>
+                </div>
+                <div class="counter">
+                    <span>2</span>
+                    <span>1</span>
+                </div>
+            </div>
+        </div>
+        <!-- 右侧信息 -->
+        <div class="container-right">
+            
+            <div id="artListDiv">
+            </div>
+
+            <hr>
+            <div class="blog-pagnation-wrapper">
+                <button onclick="goFirstPage()" class="blog-pagnation-item">首页</button> 
+                <button onclick="goBeforePage()"class="blog-pagnation-item">上一页</button>  
+                <button onclick="goNextPage()"class="blog-pagnation-item">下一页</button>
+                <button onclick="goLastPage()"class="blog-pagnation-item">末页</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        //当前页面
+        var pindex = 1;
+        //每页显示条数
+        var psize = 2;
+        //最大页数
+        var pcount = 1;
+        //1、先尝试得到当前url中的页码
+        pindex = getUrlValue("pindex")=="" ? 1 : getUrlValue("pindex");
+        //2、查询后端接口，得到当前页面的数据，进行展示
+        function initPage() {
+            jQuery.ajax({
+                url:"/art/listbypage",
+                type:"POST",
+                data:{"pindex":pindex,"psize":psize},
+                success:function(result) {
+                    if(result!=null && result.code==200 && result.data.list.length>0) {
+                        var artListHtml = "";
+                        for (var i = 0; i < result.data.list.length; i++) {
+                            var articleinfo = result.data.list[i];
+                            artListHtml += '<div class="blog">';
+                            artListHtml += '<div class="title">' +articleinfo.title+'</div>';
+                            artListHtml += '<div class="date">'+articleinfo.updatetime+'</div>';
+                            artListHtml += '<div class="desc">' + articleinfo.content+'</div>';
+                            artListHtml += '<a href="blog_content.html?id='+ articleinfo.id
+                                    +'">查看全文 &gt;&gt; </a> ';
+                            artListHtml += '</div>';
+                        }
+                        jQuery("#artListDiv").html(artListHtml);
+                        pcount = result.data.pcount;
+                    }
+                }
+            });
+        }
+        initPage();
+        //跳转到首页
+        function goFirstPage() {
+            if(pindex <= 1) {
+                alert("当前已经在首页了");
+                return;
+            }
+            location.href = "blog_list.html";
+        }
+        //点击上一页
+        function goBeforePage() {
+            if(pindex <= 1) {
+                alert("当前已经在首页了");
+                return;
+            }
+            pindex = parseInt(pindex) - 1;
+            location.href = "blog_list.html?pindex=" + pindex; 
+        }
+        function goNextPage() {
+            if(pindex>=pcount) {
+                alert("已经在末页了");
+                return;
+            }
+            pindex = parseInt(pindex) + 1;
+            location.href = "blog_list.html?pindex=" + pindex; 
+        }
+        function goLastPage() {
+            if(pindex>=pcount) {
+                alert("已经在末页了");
+                return;
+            }
+            location.href = "blog_list.html?pindex=" + pcount; 
+        }
+    </script>
+</body>
+</html>

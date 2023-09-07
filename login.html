@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="image/logo2.png" alt="">
+        <span class="title">我的博客系统</span>
+        <!-- 这个标签仅仅用于占位, 把这几个 a 标签挤到右侧去 -->
+        <div class="spacer"></div>
+        <a href="reg.html">注册</a>
+        <a href="blog_edit.html">写博客</a>
+    </div>
+    <!-- 正文部分 -->
+    <!-- 贯穿整个页面的容器 -->
+    <div class="login-container">
+        <!-- 垂直水平居中的登录对话框 -->
+        <div class="login-dialog">
+            <h3>登录</h3>
+            <div class="row">
+                <span>用户名</span>
+                <input type="text" id="username" placeholder="手机号/邮箱">
+            </div>
+            <div class="row">
+                <span>密码</span>
+                <input type="password" id="password" placeholder="输入密码">
+            </div>
+            <div class="row">
+                <button id="submit" onclick="mysub()">登录</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function mysub() {
+            //1、非空校验
+            var username = jQuery("#username");
+            var password = jQuery("#password");
+            if(username.val() == "") {
+                alert("请先输入用户名！");
+                username.focus();
+                return;
+            }
+            if(password.val() == "") {
+                alert("请先输入密码！");
+                password.focus();
+                return;
+            }
+            //2、ajax 请求登录接口
+            jQuery.ajax({
+                url:"/user/login",
+                type:"POST",
+                data:{"username":username.val(),"password":password.val()},
+                success:function(result) {
+                    if(result!=null && result.code==200 && result.data!=null) {
+                        //登录成功
+                        location.href = "myblog_list.html";
+                    } else {
+                        alert("登录失败，用户名或密码输入错误，请重试！");
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
